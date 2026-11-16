@@ -1,20 +1,22 @@
 <div align="center">
 
-<img src="docs/images/logo.png" width="100" alt="DataVision Logo" style="border-radius: 16px; margin-bottom: 12px;"/>
+<img src="docs/images/logo.png" width="110" alt="DataVision Logo" style="border-radius: 16px; margin-bottom: 12px;"/>
 
 # DataVision Studio
-### Enterprise Business Intelligence & Advanced Statistical Analytics Desktop Suite
-**منصة استخبارات الأعمال والتحليلات الإحصائية المتقدمة لملفات الإكسل والجداول**
+### Enterprise Business Intelligence & Advanced Multi-Engine Analytics
+**المنصة التنفيذية لتحليل البيانات واستخبارات الأعمال لملفات الإكسل والجداول**
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2011%20%7C%20WinUI%203-0078D4?style=for-the-badge&logo=windows11)](https://github.com/ebrahim-alazzani/DataVisionAI)
 [![Framework](https://img.shields.io/badge/.NET-9.0.1-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
+[![Python Engine](https://img.shields.io/badge/Python-Pandas%20%7C%20Scikit--Learn-3776AB?style=for-the-badge&logo=python)](https://python.org/)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture%20%26%20SOLID-10B981?style=for-the-badge)](https://github.com/ebrahim-alazzani/DataVisionAI)
 [![Developer](https://img.shields.io/badge/Developer-Ebrahim%20Al--Azzani-0EA5E9?style=for-the-badge)](https://github.com/ebrahim-alazzani)
 [![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
 
 <br/>
 
-<img src="docs/images/dashboard_preview.svg" width="100%" alt="DataVision Studio Interface Preview"/>
+### 📸 لقطة حية من داخل التطبيق أثناء التشغيل (Live Application Screenshot):
+<img src="docs/images/app_screenshot.png" width="100%" alt="DataVision Studio Live Running Screenshot" style="border-radius: 12px; border: 1px solid #1E293B;"/>
 
 </div>
 
@@ -22,128 +24,107 @@
 
 ## 📌 نظرة عامة (Overview)
 
-**DataVision Studio** هو نظام سطح مكتب تنفيذي متكامل مبني بأحدث تقنيات مايكروسوفت **WinUI 3 (.NET 9 + Windows App SDK)**، صُمم خصيصاً للمؤسسات والشركات والمحللين الماليين لاستيراد وفحص وتحليل ملفات البيانات الضخمة (`.xlsx` و `.csv`)، وتوليد مؤشرات الأداء الرئيسية (KPIs)، والمخططات التفاعلية، والتقارير التنفيذية الصالحة للطباعة **بشكل محلي 100% دون إرسال أي بايت خارج جهازك**.
-
-> 🔒 **لماذا محرك إحصائي خوارزمي محلي 100% وبدون اعتمادات خارجية؟**
-> - **سرية تامة للبيانات:** ملفات الرواتب، والمبيعات، والحسابات البنكية تظل مشفرة ومخزنة في ذاكرة جهازك فقط.
-> - **دقة حسابية صارمة (Zero Hallucination):** الحسابات الرياضية مبنية على نظريات إحصائية مثبتة (IQR, Tukey Fences, Variance, Standard Deviation, Percentiles) دون أي أخطاء أو تخمينات.
-> - **مجاني ومستقل مدى الحياة:** يعمل في أي بيئة دون الحاجة لاشتراكات سحابية، أو مفاتيح API، أو حتى اتصال بالإنترنت.
+**DataVision Studio** هو نظام سطح مكتب تنفيذي واحترافي لتحليل واستخبارات الأعمال مبني بواجهة **WinUI 3 (.NET 9 + Windows App SDK)**. صُمم التطبيق ليعمل كبديل محلي مستقل للأنظمة السحابية المعقدة، ويتيح للشركات والمحللين الماليين استيراد ملفات الإكسل (`.xlsx` متعددة الأوراق) وملفات `.csv` الضخمة، وتشغيل تحليلات إحصائية دقيقة، ومصفوفات ارتباط، ونماذج تعلم آلي تنبؤية محلياً 100% دون تسريب أي بيانات.
 
 ---
 
-## 🚀 المميزات الأساسية (Core Features)
+## ⚙️ المعمارية الثلاثية للتحليل (Triple-Engine Architecture)
 
-1. **معالج الجداول فائق السرعة (Zero-Dependency Spreadsheet Engine):**
-   * قراءة ملفات Excel الحديثة (`.xlsx`) والقديمة وملفات `.csv` الكبيرة مباشرة عبر مكتبات OpenXML دون الحاجة لتثبيت Microsoft Office.
-   * دعم كامل وأصيل للترميز العربي (`UTF-8` و `Windows-1256`).
-2. **محرك الإحصاء الوصفي الشامل (Descriptive Statistics Engine):**
-   * احتساب: المجموع ($Sum$)، المتوسط الحسابي ($Mean$), الوسيط ($Median$), التباين ($\sigma^2$), الانحراف المعياري ($\sigma$).
-   * احتساب الربيعيات: $Q_1$ (مئوية 25%), $Q_3$ (مئوية 75%), والمدى الربيعي ($IQR = Q_3 - Q_1$).
-3. **كاشف القيم الشاذة الآلي (Automated Anomaly & Outlier Detector):**
-   * كشف السجلات المتطرفة باستخدام قاعدة توكي الصارمة ($Tukey's\ Fence$):
-     $$\text{Outliers} = x < (Q_1 - 1.5 \times IQR) \quad \text{أو} \quad x > (Q_3 + 1.5 \times IQR)$$
-4. **استوديو المخططات التفاعلية المباشرة (ApexCharts Studio):**
-   * عرض فوري وسلس للمخططات: أعمدة (Bar)، خطوط (Line)، مساحي (Area)، ودائري مجوف (Donut).
-   * تكبير، تقريب، فحص النطاقات الزمنية، وتصدير الرسوم بجودة متناهية الدقة.
-5. **وحدة الاستعلام والفحص التنفيذي (Statistical Query Console):**
-   * طرح استفسارات إحصائية مباشرة للحصول على كشف سريع بالأعمدة، ونسب الاكتمال، وترتيب الفئات القيادية (Pareto 80/20).
-6. **مُصدّر التقارير التنفيذية (Executive Report Exporter):**
-   * تصدير فوري بنقرة زر لتقارير إدارية كاملة بصيغتي **HTML تفاعلي** و **Markdown**.
-
----
-
-## 📐 المعمارية الهندسية وأنماط التصميم (Clean Architecture & SOLID)
-
-تم بناء المشروع بالكامل وفق أفضل الممارسات الهندسية المعترف بها عالمياً:
+يعتمد التطبيق على **3 محركات تحليل متكاملة** تضمن أقصى سرعة ودقة:
 
 ```
-src/DataVision.Desktop/
-├── Core/                               # [Domain Layer] النواة البرمجية الصافية
-│   ├── Interfaces/                     # عقود وفصول الخدمات (Abstraction Contracts)
-│   │   ├── IExcelReaderService.cs      # عقد قارئ الجداول
-│   │   ├── IAnalyticsEngineService.cs  # عقد محرك الإحصاء والتحليلات
-│   │   ├── IChartGeneratorService.cs   # عقد مولد الرسوم البيانية
-│   │   └── IReportExportService.cs     # عقد تصدير التقارير
-│   └── Enums/                          # التعدادات القياسية للبيانات والمخططات
-├── Models/                             # [Data Models] كائنات التوصيف الإحصائي
-│   ├── DataColumnProfile.cs            # توصيف إحصائي للعمود (Mean, Median, IQR...)
-│   ├── DataTableProfile.cs             # بيانات الجدول ككل وجودة البيانات الكلية
-│   └── ExecutiveInsight.cs             # الرؤية التنفيذية المحسوبة
-├── Services/                           # [Infrastructure Layer] التنفيذ الفعلي للعقود
-│   ├── ExcelReaderService.cs           # معالج ملفات XLSX و CSV
-│   ├── StatisticalAnalyticsService.cs  # خوارزميات الإحصاء واكتشاف القيم الشاذة
-│   ├── ChartGeneratorService.cs        # مولد مواصفات ApexCharts
-│   ├── ReportExportService.cs          # مولد وثائق HTML و Markdown
-│   └── NativeFileDialog.cs             # نافذة اختيار الملفات الأصلية المستقرة (Win32)
-├── ViewModels/                         # [Application / Presentation State]
-│   ├── MainViewModel.cs                # نموذج العرض الرئيسي وحالة التطبيق
-│   └── AnalyticsSummaryViewModel.cs    # نموذج عرض وحدة الاستعلام
-├── Views/                              # [UI Layer] صفحات XAML لواجهة WinUI 3
-│   ├── MainWindow.xaml                 # الإطار الرئيسي وشريط التنقل الجانبي
-│   ├── DashboardPage.xaml              # لوحة القيادة والمؤشرات التنفيذية
-│   ├── ChartsPage.xaml                 # استوديو المخططات التفاعلية
-│   ├── AnalyticsSummaryPage.xaml       # وحدة الاستعلام الإحصائي
-│   ├── DataPreviewPage.xaml            # استعراض الأعمدة ومقاييس البيانات
-│   └── SettingsPage.xaml               # الإعدادات، ومعايير المعمارية، والمطور
-└── Assets/                             # شعارات وأيقونات التطبيق
+┌────────────────────────────────────────────────────────────────────────┐
+│                          DataVision Studio                             │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+         ┌──────────────────────────┼──────────────────────────┐
+         ▼                          ▼                          ▼
+┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+│     المحرك 1      │      │     المحرك 2      │      │     المحرك 3      │
+│  C# Native Stats │      │ Python Data Sci  │      │ Machine Learning │
+│  (خوارزمي محلي)   │      │ (Pandas & NumPy) │      │ (Scikit-Learn ML)│
+└──────────────────┘      └──────────────────┘      └──────────────────┘
 ```
 
-### تطبيق مبادئ SOLID عملياً في الكود:
-* **S (Single Responsibility Principle):** كل فئة (`Class`) مسؤولة عن وظيفة محددة بدقة؛ قارئ الإكسل لا يعلم شيئاً عن الرسوم البيانية، ومولد التقارير لا يتدخل في حساب الإحصائيات.
-* **O (Open/Closed Principle):** محرك الإحصاء والتحليلات مهيأ لإضافة مقاييس وخوارزميات جديدة دون تعديل واجهات الاستدعاء الأساسية.
-* **L (Liskov Substitution Principle):** يمكن استبدال أي خدمة من خدمات النواة بأي تطبيق آخر يحقق نفس الـ Interface دون كسر الواجهة.
-* **I (Interface Segregation Principle):** الواجهات مقسمة لعقود صغيرة ومحددة الهدف (`IExcelReaderService`, `IChartGeneratorService`, `IReportExportService`).
-* **D (Dependency Inversion Principle):** جميع الـ ViewModels تعتمد حصراً على واجهات التجريد (`Interfaces`) ويتم حقنها آلياً عبر حاوية حقن التبعيات (`Microsoft.Extensions.DependencyInjection`).
+### 1. الطريقة الأولى: المحرك الإحصائي والخوارزمي الأصلي (C# Native 100% Offline):
+* **بدون أي متطلبات خارجية:** يعمل فورياً وبسرعة البرق حتى على الأجهزة التي لا تحتوي على بايثون أو برامج أوفيس.
+* **الإحصاء الوصفي الدقيق:** المجموع ($Sum$)، المتوسط الحسابي ($Mean$)، الوسيط ($Median$)، الانحراف المعياري ($\sigma$)، والتباين ($\sigma^2$).
+* **كاشف القيم الشاذة الصارم (Tukey's IQR Outlier Test):**
+  $$\text{Lower Fence} = Q_1 - 1.5 \times IQR \qquad \text{Upper Fence} = Q_3 + 1.5 \times IQR$$
+* **مؤشر جودة واكتمال البيانات:** احتساب فوري لنسب الفراغ واكتمال كل عمود في الشيت.
+
+### 2. الطريقة الثانية: محرك بايثون العلمي (Python Data Science Engine):
+* يعتمد على مكتبات **Pandas** و **NumPy**.
+* **مصفوفة الارتباط (Pearson Correlation Matrix):** حساب معاملات الارتباط بين كافة الأعمدة الرقمية وتحديد أقوى العلاقات الإحصائية المتبادلة (مثال: الارتباط بين مدة الاشتراك وإجمالي الإنفاق).
+* استخراج التوزيعات التكرارية والـ Group-by Pivots.
+
+### 3. الطريقة الثالثة: نموذج التعلم الآلي والتنبؤ (Machine Learning Predictive Model):
+* يعتمد على مكتبة **Scikit-Learn**.
+* **نموذج الانحدار الخطي والتنبؤ بالاتجاهات (Linear Regression & Forecasting):** تدريب نموذج آلي على البيانات التاريخية وتوقع القيم المستقبلية للفترات التالية مع حساب معامل التحديد ($R^2$).
+* **التجميع العنقودي غير الخاضع للإشراف (K-Means Clustering):** تصنيف السجلات تلقائياً إلى مجموعات وشرائح متماثلة السلوك والخصائص.
 
 ---
 
-## 💻 متطلبات التشغيل والتثبيت (Requirements)
+## 📊 لوحة المؤشرات والمخططات التفاعلية المزدوجة (Power BI Style)
 
-* **نظام التشغيل:** Windows 10 (إصدار 1809 وما بعده) أو Windows 11.
-* **بيئة التشغيل:** .NET SDK 9.0 (للراغبين في تشغيل الكود المصدري) أو بدون أي متطلبات للنسخة المجمعة مسبقاً (Self-Contained Executable).
+* **مخططات تفاعلية مزدوجة (Multi-Visual Grid):**
+  * **مخطط الأعمدة التفاعلي (Bar Chart):** لمقارنة الفئات والأقسام الأكثر تحقيقاً للمبيعات أو الأرقام.
+  * **مخطط دائري مجوف (Donut Chart):** لحساب الحصص السوقية والنسب المئوية لكل فئة.
+* **الاستعلام الإحصائي السريع:** فحص فوري للأعمدة، أو القيم الشاذة، أو الملخص التنفيذي بنقرة زر واحدة.
+* **تصدير التقارير الإدارية:** توليد تقرير تنفيذي كامل بصيغة HTML جاهز للطباعة أو التقديم للإدارة.
+
+---
+
+## 📁 ملفات بيانات واقعية متكاملة مرفقة للاختبار (Sample Datasets)
+
+لتجربة كامل قدرات النظام والمخططات متعددة الأبعاد، تم تضمين حزمة بيانات واقعية في مجلد `samples/`:
+
+| الملف | الوصف والحجم | الميزات التي يختبرها |
+|---|---|---|
+| `samples/enterprise_sales_inventory.xlsx` | **ملف إكسل متكامل بـ 3 أوراق عمل** (المبيعات، المخزون، تقييم الأداء) | اختبار تبديل أوراق العمل، المخططات المزدوجة، توزيع الفروع |
+| `samples/bakery_production_arabic.csv` | **بيانات إنتاج المخابز والتكاليف بالعربي** (~500 KB) | اختبار استيعاب النصوص العربية الكبيرة واكتشاف الهدر |
+| `samples/customer_churn_analysis.csv` | **بيانات 5,000 عميل لشركة اتصالات** (~700 KB) | اختبار مصفوفة الارتباط ونموذج التعلم الآلي والتنبؤ بالإنفاق |
+| `samples/california_market_housing.csv` | **أكثر من 20,000 سجل عقاري** (~1.4 MB) | اختبار السرعة القصوى وقدرة التحمل للأحجام الكبيرة |
+
+> 💡 **ملاحظة:** ملف `MASTER_REPORT.csv` الذي ظهر في لقطة الشاشة الأولى كان يحتوي على صف واحد فقط، بينما عند فتح ملفات `samples/` أعلاه ستشاهد كامل قدرات المخططات المزدوجة ومصفوفات الارتباط وتنبؤات التعلم الآلي.
 
 ---
 
 ## 🛠️ كيفية التشغيل والبناء (How to Run & Build)
 
-> 💡 **ملاحظة:** جميع الأوامر والملفات تعتمد على **مسارات نسبية (Relative Paths)** وتعمل فوراً على أي جهاز أو مجلد يتم نسخ المستودع إليه دون أي تعديل.
+> 💡 **ملاحظة:** جميع الأوامر والملفات تعتمد على **مسارات نسبية (Relative Paths)** وتعمل فوراً على أي جهاز أو مجلد دون أي تعديل.
 
-### 1. التشغيل السريع بنقرة واحدة (1-Click Run):
-انقر نقراً مزدوجاً على الملف:
+### 1. التشغيل السريع بنقرة واحدة:
+شغّل الملف المباشر:
 ```cmd
 run_datavision.bat
 ```
 
-### 2. التشغيل عبر سطر الأوامر (Command Line):
+### 2. التشغيل عبر سطر الأوامر:
 ```powershell
-# 1. استنساخ المستودع
-git clone https://github.com/ebrahim-alazzani/DataVisionAI.git
-cd DataVisionAI
-
-# 2. تشغيل التطبيق
 cd src/DataVision.Desktop
 dotnet run -p:Platform=x64
 ```
 
 ### 3. بناء نسخة تشغيل نهائية مستقلة (Publish Standalone EXE):
-إذا أردت إنشاء ملف تنفيذي مستقل `.exe` لا يحتاج تثبيت .NET أو Visual Studio على أي كمبيوتر آخر:
-* شغّل ملف البناء المباشر:
-  ```cmd
-  build_release.bat
-  ```
-* أو نفّذ الأمر التالي:
-  ```powershell
-  dotnet publish src/DataVision.Desktop/DataVision.Desktop.csproj -c Release -r win-x64 --self-contained true -p:WindowsPackageType=None -o ./publish
-  ```
-  ستجد الملف التنفيذي جاهزاً في المجلد: `publish/DataVision.Desktop.exe`.
+لإنشاء ملف `.exe` تنفيذي مستقل يعمل على أي جهاز دون الحاجة لتثبيت .NET SDK:
+```cmd
+build_release.bat
+```
+أو عبر الأمر:
+```powershell
+dotnet publish src/DataVision.Desktop/DataVision.Desktop.csproj -c Release -r win-x64 --self-contained true -p:WindowsPackageType=None -o ./publish
+```
 
 ---
 
-## 📊 ملف بيانات تجريبي للاختبار الفوري
+## 📐 المعمارية البرمجية ومبادئ SOLID (Clean Architecture)
 
-يحتوي المستودع على ملف مبيعات واقعي باللغتين العربية والإنجليزية جاهز لاختبار البرنامج فوراً:
-* مسار الملف النسبي: `./sample_sales_data.csv`
-* يتضمن حقول: (التاريخ، الفرع، فئة المنتج، الكمية المباعة، إجمالي المبيعات، صافي الأرباح، تقييم العملاء).
+تم تنظيم الكود البرمجي وفق معايير SOLID و Clean Architecture:
+* **`Core/Interfaces/`**: عقود واجهات منفصلة (`IExcelReaderService`, `IAnalyticsEngineService`, `IPythonAnalyticsService`, `IChartGeneratorService`, `IReportExportService`).
+* **`Services/`**: التنفيذ الفعلي للخوارزميات ومحركات التحليل وتوليد ملفات الـ HTML والـ Markdown.
+* **`ViewModels/`**: إدارة الحالة ونماذج العرض باستخدام `CommunityToolkit.Mvvm`.
+* **`Views/`**: واجهات XAML بتصميم مايكروسوفت الحديث (Windows 11 Fluent Design).
 
 ---
 
@@ -156,10 +137,4 @@ dotnet run -p:Platform=x64
 * **المستودع الرسمي:** [https://github.com/ebrahim-alazzani/DataVisionAI](https://github.com/ebrahim-alazzani/DataVisionAI)
 * **الترخيص:** مرخص بموجب رخصة [MIT License](LICENSE).
 
-</div>
-
----
-
-<div align="center">
-  <sub>صُمم وطُوّر بكل فخر بواسطة إبراهيم العزاني باستخدام تقنيات مايكروسوفت الحديثة .NET 9 &amp; WinUI 3</sub>
 </div>

@@ -38,6 +38,7 @@ public partial class App : Application
         // Core Domain Services (SOLID: Dependency Inversion Principle - register interfaces)
         services.AddSingleton<IExcelReaderService, ExcelReaderService>();
         services.AddSingleton<IAnalyticsEngineService, StatisticalAnalyticsService>();
+        services.AddSingleton<IPythonAnalyticsService, PythonAnalyticsService>();
         services.AddSingleton<IChartGeneratorService, ChartGeneratorService>();
         services.AddSingleton<IReportExportService, ReportExportService>();
 

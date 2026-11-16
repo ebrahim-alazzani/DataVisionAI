@@ -4,23 +4,28 @@ using System.IO;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DataVision.Desktop.Core.Enums;
 using DataVision.Desktop.Core.Interfaces;
 using DataVision.Desktop.Models;
 
 namespace DataVision.Desktop.ViewModels;
 
 /// <summary>
-/// نموذج العرض الرئيسي (MainViewModel) الذي ينسق دورة حياة التطبيق والبيانات.
-/// Follows MVVM & SOLID: Single Responsibility Principle & Dependency Inversion Principle.
+/// نموذج العرض الرئيسي (MainViewModel) الذي ينسق دورة حياة التطبيق والمحركات الثلاثة.
+/// Coordinates the 3 Analytical Engines:
+/// 1. Native C# Statistical & Algorithmic Engine (100% Offline & Instant)
+/// 2. Python Data Science Engine (Pandas + NumPy)
+/// 3. Machine Learning Predictive Modeling Engine (Scikit-Learn Regression & Forecasting)
 /// </summary>
 public partial class MainViewModel : ObservableObject
 {
     private readonly IExcelReaderService _excelReader;
     private readonly IAnalyticsEngineService _analyticsEngine;
+    private readonly IPythonAnalyticsService _pythonAnalytics;
     private readonly IReportExportService _reportExport;
 
     [ObservableProperty]
-    private string _appTitle = "DataVision Studio · منصة استخبارات الأعمال والتحليلات المتقدمة";
+    private string _appTitle = "DataVision Studio · منصة استخبارات الأعمال والتحليلات الإحصائية المتقدمة";
 
     [ObservableProperty]
     private bool _isBusy;
@@ -40,10 +45,12 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(
         IExcelReaderService excelReader,
         IAnalyticsEngineService analyticsEngine,
+        IPythonAnalyticsService pythonAnalytics,
         IReportExportService reportExport)
     {
         _excelReader = excelReader;
         _analyticsEngine = analyticsEngine;
+        _pythonAnalytics = pythonAnalytics;
         _reportExport = reportExport;
     }
 
@@ -53,17 +60,64 @@ public partial class MainViewModel : ObservableObject
         try
         {
             IsBusy = true;
-            StatusMessage = "جاري قراءة واستخراج بيانات الجدول وفحص الأعمدة...";
+            StatusMessage = "1/3 جاري قراءة واستخراج بيانات الجدول وتوصيف الأعمدة (محرك C# الأصلي)...";
 
             CurrentProfile = await _excelReader.LoadAndProfileAsync(filePath);
 
-            StatusMessage = "جاري تنفيذ التحليل الإحصائي وتوليد المؤشرات التنفيذية...";
+            StatusMessage = "2/3 جاري فحص الانحرافات واكتشاف القيم الشاذة إحصائياً (Tukey IQR & Pareto)...";
             var generatedInsights = await _analyticsEngine.GenerateExecutiveInsightsAsync(CurrentProfile);
 
             Insights.Clear();
             foreach (var insight in generatedInsights)
             {
                 Insights.Add(insight);
+            }
+
+            // 3. Invoke Python Scientific & Machine Learning Engine
+            StatusMessage = "3/3 جاري استدعاء محرك بايثون العلمي ونموذج التعلم الآلي التنبؤي (Pandas & Scikit-Learn)...";
+            var pyResult = await _pythonAnalytics.AnalyzeAsync(filePath);
+            if (pyResult != null && pyResult.Success)
+            {
+                // Add Top Correlation Insight
+                if (pyResult.Correlations.Count > 0)
+                {
+                    var topCorr = pyResult.Correlations[0];
+                    Insights.Insert(0, new ExecutiveInsight
+                    {
+                        Title = $"ارتباط إحصائي متبادل: ({topCorr.Col1}) و ({topCorr.Col2})",
+                        Description = $"أظهر محرك بايثون معامل ارتباط بيرسون مقداره {topCorr.Correlation:N3} بدرجة قوة ({topCorr.Strength}). يشير ذلك إلى علاقة تأثير مباشرة بين هذين المتغيرين.",
+                        Category = InsightCategory.Trend,
+                        Severity = Math.Abs(topCorr.Correlation) > 0.6 ? InsightSeverity.Success : InsightSeverity.Info,
+                        ImpactMetric = $"r = {topCorr.Correlation:N2}"
+                    });
+                }
+
+                // Add Machine Learning Predictive Forecast Insight
+                if (pyResult.MlForecast != null)
+                {
+                    var ml = pyResult.MlForecast;
+                    Insights.Insert(0, new ExecutiveInsight
+                    {
+                        Title = $"نموذج التعلم الآلي التنبؤي لـ ({ml.TargetColumn})",
+                        Description = $"تم تدريب نموذج انحدار خطي (Linear Regression) بمعامل تحديد R² = {ml.R2Accuracy}. الاتجاه العام {ml.TrendDirection}. التنبؤات المتوقعة للفترات التالية: [{string.Join(", ", ml.ForecastNextSteps)}].",
+                        Category = InsightCategory.Recommendation,
+                        Severity = InsightSeverity.Success,
+                        ImpactMetric = ml.TrendDirection.Contains("صاعد") ? "اتجاه صاعد" : "اتجاه هابط"
+                    });
+                }
+
+                // Add Clustering Insight
+                if (pyResult.Clusters.Count > 0)
+                {
+                    Insights.Add(new ExecutiveInsight
+                    {
+                        Title = $"تصنيف الأنماط العنقودية (K-Means Clustering: {pyResult.Clusters.Count} شرائح)",
+                        Description = $"قام نموذج التعلم الآلي غير الخاضع للإشراف بتوزيع السجلات إلى {pyResult.Clusters.Count} مجموعات متجانسة لتحديد الأنماط السلوكية والتشغيلية.",
+                        Category = InsightCategory.Distribution,
+                        Severity = InsightSeverity.Info,
+                        ImpactMetric = $"{pyResult.Clusters.Count} مجموعات"
+                    });
+                }
             }
 
             StatusMessage = $"تم تحليل ({CurrentProfile.FileName}) بنجاح: {CurrentProfile.TotalRows:N0} سجلاً و {CurrentProfile.TotalColumns} أعمدة بجودة {CurrentProfile.OverallQualityScore}%.";
