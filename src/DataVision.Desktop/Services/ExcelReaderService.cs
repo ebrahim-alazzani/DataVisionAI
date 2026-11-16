@@ -7,23 +7,30 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using DataVision.Desktop.Core.Enums;
+using DataVision.Desktop.Core.Interfaces;
 using DataVision.Desktop.Models;
 
 namespace DataVision.Desktop.Services;
 
-public class ExcelReaderService
+/// <summary>
+/// خدمة قراءة وتحليل ملفات الإكسل (XLSX) وجداول CSV دون أي اعتماديات خارجية على Microsoft Office.
+/// Implements IExcelReaderService following SOLID: Single Responsibility Principle.
+/// </summary>
+public class ExcelReaderService : IExcelReaderService
 {
     private static readonly XNamespace NsMain = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-    private static readonly XNamespace NsRel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 
-    public async Task<DataTableProfile> LoadAndProfileAsync(string filePath, string? targetSheetName = null)
+    /// <inheritdoc/>
+    public async Task<DataTableProfile> LoadAndProfileAsync(string filePath, string? targetSheetName = null, CancellationToken cancellationToken = default)
     {
         return await Task.Run(() =>
         {
             if (!File.Exists(filePath))
-                throw new FileNotFoundException("File not found", filePath);
+                throw new FileNotFoundException("ملف البيانات غير موجود في المسار المحدد.", filePath);
 
             var fileInfo = new FileInfo(filePath);
             var extension = fileInfo.Extension.ToLowerInvariant();
@@ -42,7 +49,7 @@ public class ExcelReaderService
             }
             else
             {
-                throw new NotSupportedException($"صيغة الملف غير مدعومة: {extension}. يرجى استخدام .xlsx أو .csv");
+                throw new NotSupportedException($"صيغة الملف غير مدعومة: {extension}. الصيغ المدعومة هي .xlsx و .csv فقط.");
             }
 
             var profile = new DataTableProfile
@@ -59,18 +66,19 @@ public class ExcelReaderService
 
             foreach (DataColumn col in table.Columns)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 profile.Columns.Add(ProfileColumn(table, col));
             }
 
             return profile;
-        });
+        }, cancellationToken);
     }
 
     private static (DataTable table, List<string> sheetNames) ReadXlsx(string filePath, string? targetSheet)
     {
         using var zip = ZipFile.OpenRead(filePath);
 
-        // 1. Load shared strings
+        // 1. Shared Strings Table
         var sharedStrings = new List<string>();
         var sharedStringsEntry = zip.GetEntry("xl/sharedStrings.xml");
         if (sharedStringsEntry != null)
@@ -79,15 +87,14 @@ public class ExcelReaderService
             var doc = XDocument.Load(stream);
             foreach (var si in doc.Descendants(NsMain + "si"))
             {
-                // Can contain multiple <t> or formatting
                 var text = string.Concat(si.Descendants(NsMain + "t").Select(t => t.Value));
                 sharedStrings.Add(text);
             }
         }
 
-        // 2. Read workbook to get sheet names
+        // 2. Workbook & Sheets Map
         var sheetNames = new List<string>();
-        var sheetMap = new Dictionary<string, string>(); // name -> filename
+        var sheetMap = new Dictionary<string, string>();
         var wbEntry = zip.GetEntry("xl/workbook.xml");
         if (wbEntry != null)
         {
@@ -117,7 +124,7 @@ public class ExcelReaderService
         var sheetEntry = zip.GetEntry(sheetPath) ?? zip.Entries.FirstOrDefault(e => e.FullName.StartsWith("xl/worksheets/sheet") && e.FullName.EndsWith(".xml"));
 
         if (sheetEntry == null)
-            throw new InvalidOperationException("لم يتم العثور على أوراق عمل داخل ملف الإكسل.");
+            throw new InvalidOperationException("لم يتم العثور على ورقة العمل المطلوبة داخل ملف الإكسل.");
 
         var dataTable = new DataTable(activeSheetName);
 
@@ -128,7 +135,7 @@ public class ExcelReaderService
 
             if (rows.Count > 0)
             {
-                // Row 1 is headers
+                // Row 1: Headers
                 var headerRow = rows[0];
                 var headers = new List<string>();
                 var headerCols = new HashSet<string>();
@@ -138,7 +145,6 @@ public class ExcelReaderService
                     var val = GetCellValue(cell, sharedStrings);
                     var colName = string.IsNullOrWhiteSpace(val) ? $"Column_{headers.Count + 1}" : val.Trim();
 
-                    // Avoid duplicate column names in DataTable
                     var uniqueColName = colName;
                     int dup = 2;
                     while (headerCols.Contains(uniqueColName))
@@ -150,7 +156,7 @@ public class ExcelReaderService
                     dataTable.Columns.Add(uniqueColName, typeof(string));
                 }
 
-                // Data Rows
+                // Subsequent Rows: Data
                 for (int i = 1; i < rows.Count; i++)
                 {
                     var rowEl = rows[i];
@@ -164,8 +170,7 @@ public class ExcelReaderService
 
                         if (colIdx >= 0 && colIdx < dataTable.Columns.Count)
                         {
-                            var val = GetCellValue(cell, sharedStrings);
-                            dr[colIdx] = val;
+                            dr[colIdx] = GetCellValue(cell, sharedStrings);
                         }
                     }
 
@@ -315,7 +320,6 @@ public class ExcelReaderService
                 sampleValues.Add(strVal);
             }
 
-            // Check if numeric
             if (double.TryParse(strVal, NumberStyles.Any, CultureInfo.InvariantCulture, out double numVal) ||
                 double.TryParse(strVal, NumberStyles.Any, CultureInfo.CurrentCulture, out numVal))
             {
@@ -328,13 +332,13 @@ public class ExcelReaderService
             }
         }
 
-        string detectedType = "string";
+        var detectedType = ColumnDataType.Text;
         if (nonNullCount > 0)
         {
             if ((double)detectedNumberCount / nonNullCount > 0.8)
-                detectedType = "number";
+                detectedType = ColumnDataType.Numeric;
             else if ((double)detectedDateCount / nonNullCount > 0.8)
-                detectedType = "datetime";
+                detectedType = ColumnDataType.DateTime;
         }
 
         var profile = new DataColumnProfile
@@ -347,14 +351,57 @@ public class ExcelReaderService
             SampleValues = sampleValues
         };
 
+        // Complete Statistical Computations
         if (profile.IsNumeric && numericValues.Count > 0)
         {
-            profile.MinValue = numericValues.Min();
-            profile.MaxValue = numericValues.Max();
-            profile.MeanValue = Math.Round(numericValues.Average(), 2);
+            numericValues.Sort();
+            int n = numericValues.Count;
+
+            profile.MinValue = Math.Round(numericValues[0], 2);
+            profile.MaxValue = Math.Round(numericValues[^1], 2);
             profile.SumValue = Math.Round(numericValues.Sum(), 2);
+            profile.MeanValue = Math.Round(numericValues.Average(), 2);
+
+            // Median
+            profile.MedianValue = (n % 2 == 0)
+                ? Math.Round((numericValues[(n / 2) - 1] + numericValues[n / 2]) / 2.0, 2)
+                : Math.Round(numericValues[n / 2], 2);
+
+            // Variance & Standard Deviation
+            double mean = profile.MeanValue.Value;
+            double sumSquares = numericValues.Sum(val => Math.Pow(val - mean, 2));
+            profile.Variance = Math.Round(sumSquares / n, 2);
+            profile.StandardDeviation = Math.Round(Math.Sqrt(profile.Variance.Value), 2);
+
+            // Quartiles Q1 and Q3
+            profile.Q1 = Math.Round(GetPercentile(numericValues, 0.25), 2);
+            profile.Q3 = Math.Round(GetPercentile(numericValues, 0.75), 2);
+
+            // Outliers Detection using Tukey's Fence (IQR Rule)
+            if (profile.IQR.HasValue && profile.IQR.Value > 0)
+            {
+                double lowerFence = profile.Q1.Value - (1.5 * profile.IQR.Value);
+                double upperFence = profile.Q3.Value + (1.5 * profile.IQR.Value);
+                profile.OutliersCount = numericValues.Count(v => v < lowerFence || v > upperFence);
+            }
         }
 
         return profile;
+    }
+
+    private static double GetPercentile(List<double> sortedValues, double percentile)
+    {
+        if (sortedValues.Count == 0) return 0;
+        if (sortedValues.Count == 1) return sortedValues[0];
+
+        double rank = percentile * (sortedValues.Count - 1);
+        int lowIndex = (int)Math.Floor(rank);
+        int highIndex = (int)Math.Ceiling(rank);
+
+        if (lowIndex == highIndex)
+            return sortedValues[lowIndex];
+
+        double weight = rank - lowIndex;
+        return (sortedValues[lowIndex] * (1.0 - weight)) + (sortedValues[highIndex] * weight);
     }
 }

@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.Json;
+using DataVision.Desktop.Core.Interfaces;
 using DataVision.Desktop.Models;
 
 namespace DataVision.Desktop.Services;
 
-public class ChartGeneratorService
+/// <summary>
+/// خدمة توليد المخططات والرسوم البيانية التفاعلية باستخدام ApexCharts و HTML5.
+/// Implements IChartGeneratorService following SOLID: Single Responsibility Principle.
+/// </summary>
+public class ChartGeneratorService : IChartGeneratorService
 {
-    public string GenerateApexChartHtml(
+    /// <inheritdoc/>
+    public string GenerateChartHtml(
         DataTableProfile profile,
         string? categoryColName = null,
         string? valueColName = null,
@@ -50,9 +56,12 @@ public class ChartGeneratorService
         }
         else if (valCol != null)
         {
-            // Just single numeric column breakdown
             categories.Add("المتوسط");
             values.Add(valCol.MeanValue ?? 0);
+            categories.Add("الوسيط");
+            values.Add(valCol.MedianValue ?? 0);
+            categories.Add("الانحراف المعياري");
+            values.Add(valCol.StandardDeviation ?? 0);
             categories.Add("الأدنى");
             values.Add(valCol.MinValue ?? 0);
             categories.Add("الأعلى");
@@ -61,7 +70,7 @@ public class ChartGeneratorService
 
         var categoriesJson = JsonSerializer.Serialize(categories);
         var valuesJson = JsonSerializer.Serialize(values);
-        var title = catCol != null && valCol != null ? $"{valCol.Name} حسب {catCol.Name}" : "مؤشرات رقمية رئيسية";
+        var title = catCol != null && valCol != null ? $"{valCol.Name} حسب {catCol.Name}" : "المؤشرات الإحصائية الرئيسية";
 
         var bgColor = isDark ? "#131B2A" : "#FFFFFF";
         var textColor = isDark ? "#E2E8F0" : "#1E293B";

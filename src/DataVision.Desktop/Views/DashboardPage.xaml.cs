@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using DataVision.Desktop.ViewModels;
+using DataVision.Desktop.Core.Interfaces;
 using DataVision.Desktop.Services;
 using WinRT.Interop;
 
@@ -13,12 +14,12 @@ namespace DataVision.Desktop.Views;
 public sealed partial class DashboardPage : Page
 {
     private readonly MainViewModel? _mainViewModel;
-    private readonly ChartGeneratorService? _chartGenerator;
+    private readonly IChartGeneratorService? _chartGenerator;
 
     public DashboardPage()
     {
         _mainViewModel = App.Services.GetService<MainViewModel>();
-        _chartGenerator = App.Services.GetService<ChartGeneratorService>();
+        _chartGenerator = App.Services.GetService<IChartGeneratorService>();
 
         InitializeComponent();
 
@@ -56,6 +57,23 @@ public sealed partial class DashboardPage : Page
         }
     }
 
+    private async void BtnExportHtml_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainViewModel == null) return;
+        var exportedPath = await _mainViewModel.ExportReportAsync("html");
+        if (!string.IsNullOrEmpty(exportedPath))
+        {
+            var cd = new ContentDialog
+            {
+                Title = "تم تصدير التقرير التنفيذي بنجاح",
+                Content = $"تم حفظ التقرير في:\n{exportedPath}",
+                CloseButtonText = "إغلاق",
+                XamlRoot = this.XamlRoot
+            };
+            await cd.ShowAsync();
+        }
+    }
+
     public async void RefreshDashboard()
     {
         if (_mainViewModel == null) return;
@@ -77,11 +95,7 @@ public sealed partial class DashboardPage : Page
         TxtTotalColumns.Text = profile.TotalColumns.ToString();
         TxtActiveSheet.Text = profile.SheetName;
         TxtFileSize.Text = profile.FileSizeFormatted;
-
-        int totalCells = profile.TotalRows * profile.TotalColumns;
-        int totalMissing = profile.Columns.Sum(c => c.NullCount);
-        double health = totalCells > 0 ? Math.Round((1.0 - (double)totalMissing / totalCells) * 100.0, 1) : 100;
-        TxtDataQuality.Text = $"{health}%";
+        TxtDataQuality.Text = $"{profile.OverallQualityScore}%";
 
         LvInsights.ItemsSource = _mainViewModel.Insights;
 
@@ -91,7 +105,7 @@ public sealed partial class DashboardPage : Page
             if (ChartWebView != null && _chartGenerator != null)
             {
                 await ChartWebView.EnsureCoreWebView2Async();
-                var html = _chartGenerator.GenerateApexChartHtml(profile, chartType: "bar", isDark: true);
+                var html = _chartGenerator.GenerateChartHtml(profile, chartType: "bar", isDark: true);
                 ChartWebView.NavigateToString(html);
             }
         }

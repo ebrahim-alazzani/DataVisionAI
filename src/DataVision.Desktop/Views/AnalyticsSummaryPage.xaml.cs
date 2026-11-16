@@ -6,36 +6,36 @@ using DataVision.Desktop.ViewModels;
 
 namespace DataVision.Desktop.Views;
 
-public sealed partial class AiAnalystPage : Page
+public sealed partial class AnalyticsSummaryPage : Page
 {
-    private readonly AiAnalystViewModel _viewModel;
+    private readonly AnalyticsSummaryViewModel _viewModel;
 
-    public AiAnalystPage()
+    public AnalyticsSummaryPage()
     {
         InitializeComponent();
-        _viewModel = App.Services.GetRequiredService<AiAnalystViewModel>();
+        _viewModel = App.Services.GetRequiredService<AnalyticsSummaryViewModel>();
         DataContext = _viewModel;
-        LvChat.ItemsSource = _viewModel.Messages;
+        LvConsole.ItemsSource = _viewModel.Logs;
 
         _viewModel.PropertyChanged += (s, e) =>
         {
-            if (e.PropertyName == nameof(AiAnalystViewModel.IsThinking))
+            if (e.PropertyName == nameof(AnalyticsSummaryViewModel.IsComputing))
             {
-                PbThinking.Visibility = _viewModel.IsThinking ? Visibility.Visible : Visibility.Collapsed;
+                PbComputing.Visibility = _viewModel.IsComputing ? Visibility.Visible : Visibility.Collapsed;
             }
         };
     }
 
-    private async void BtnSend_Click(object sender, RoutedEventArgs e)
+    private async void BtnRunQuery_Click(object sender, RoutedEventArgs e)
     {
-        await SendCurrentMessage();
+        await ExecuteQuery();
     }
 
     private async void TxtInput_KeyDown(object sender, KeyRoutedEventArgs e)
     {
         if (e.Key == Windows.System.VirtualKey.Enter)
         {
-            await SendCurrentMessage();
+            await ExecuteQuery();
         }
     }
 
@@ -44,21 +44,20 @@ public sealed partial class AiAnalystPage : Page
         if (sender is Button btn && btn.Content is string text)
         {
             TxtInput.Text = text;
-            await SendCurrentMessage();
+            await ExecuteQuery();
         }
     }
 
-    private async System.Threading.Tasks.Task SendCurrentMessage()
+    private async System.Threading.Tasks.Task ExecuteQuery()
     {
         if (string.IsNullOrWhiteSpace(TxtInput.Text)) return;
         _viewModel.UserInput = TxtInput.Text;
         TxtInput.Text = string.Empty;
-        await _viewModel.SendQuestionAsync();
-        
-        // Scroll to bottom
-        if (LvChat.Items.Count > 0)
+        await _viewModel.ExecuteQueryAsync();
+
+        if (LvConsole.Items.Count > 0)
         {
-            LvChat.ScrollIntoView(LvChat.Items[^1]);
+            LvConsole.ScrollIntoView(LvConsole.Items[^1]);
         }
     }
 }

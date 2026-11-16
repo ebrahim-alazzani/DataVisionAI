@@ -7,46 +7,71 @@
     mc:Ignorable="d">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Spacing="20" Padding="28,24,28,32" MaxWidth="800" HorizontalAlignment="Left">
+        <StackPanel Spacing="20" Padding="28,24,28,32" MaxWidth="850" HorizontalAlignment="Left">
 
-            <!-- Section 1: AI Engine Configuration -->
-            <Border CornerRadius="12" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="20">
-                <StackPanel Spacing="14">
-                    <TextBlock Text="محرك الذكاء الاصطناعي (AI Configuration)" FontSize="16" FontWeight="Bold" Foreground="#F8FAFC" />
-                    <TextBlock Text="يدعم التطبيق محرك التحليل الإحصائي المحلي مجاناً وبدون إنترنت. للحصول على تحليل واستنتاجات متقدمة جداً، يمكنك إضافة مفتاح Google Gemini المجاني." FontSize="12.5" Foreground="#94A3B8" TextWrapping="Wrap" />
+            <!-- Section 1: Developer Info & Branding -->
+            <Border CornerRadius="16" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="24">
+                <Grid ColumnSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Spacing="6">
-                        <TextBlock Text="Google Gemini API Key (مجاني)" FontSize="12" Foreground="#94A3B8" />
-                        <PasswordBox x:Name="TxtApiKey" PlaceholderText="ألصق مفتاح Gemini هنا (يبدأ بـ AIzaSy...)" CornerRadius="8" PasswordChanged="TxtApiKey_PasswordChanged" />
-                        <TextBlock Text="* يمكنك استخراج مفتاح مجاني في ثوانٍ من aistudio.google.com" FontSize="11" Foreground="#38BDF8" />
-                    </StackPanel>
+                    <!-- Developer / App Logo -->
+                    <Border Grid.Column="0" Width="80" Height="80" CornerRadius="16" Background="#0F172A" BorderBrush="#38BDF8" BorderThickness="2" Padding="8" VerticalAlignment="Center">
+                        <Image Source="ms-appx:///Assets/logo.png" Stretch="Uniform" />
+                    </Border>
 
-                    <Button x:Name="BtnSaveKey" Click="BtnSaveKey_Click" Background="{ThemeResource DvGradientPrimary}" Foreground="White" FontWeight="Bold" CornerRadius="8" Padding="16,8" HorizontalAlignment="Right">
-                        <StackPanel Orientation="Horizontal" Spacing="6">
-                            <FontIcon Glyph="&#xE74E;" FontSize="13" />
-                            <TextBlock Text="حفظ المفتاح" />
+                    <!-- Info -->
+                    <StackPanel Grid.Column="1" Spacing="6" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="DataVision Studio" FontSize="18" FontWeight="Bold" Foreground="#F8FAFC" />
+                            <Border Background="#0284C7" CornerRadius="6" Padding="6,2" VerticalAlignment="Center">
+                                <TextBlock Text="v1.0.0 (WinUI 3)" FontSize="10" FontWeight="Bold" Foreground="White" />
+                            </Border>
                         </StackPanel>
-                    </Button>
+                        <TextBlock Text="تطوير وإشراف: إبراهيم العزاني (Ebrahim Al-Azzani)" FontSize="13" FontWeight="SemiBold" Foreground="#38BDF8" />
+                        <TextBlock Text="منصة استخبارات الأعمال وتحليل ملفات الإكسل والجداول التنفيذية وفق معايير Clean Architecture و SOLID Principles." FontSize="12" Foreground="#94A3B8" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Section 2: Architecture & SOLID Standards -->
+            <Border CornerRadius="14" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="المعايير الهندسية وأنماط التصميم (Software Architecture)" FontSize="15" FontWeight="Bold" Foreground="#F8FAFC" />
+                    
+                    <Grid ColumnSpacing="12" RowSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Background="#0F172A" CornerRadius="8" Padding="14" BorderBrush="#1E293B" BorderThickness="1">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Clean Architecture &amp; MVVM" FontWeight="Bold" FontSize="12.5" Foreground="#38BDF8" />
+                                <TextBlock Text="فصل تام بين طبقات العرض ونماذج البيانات ومحركات التحليل عبر Interfaces و Dependency Injection." FontSize="11" Foreground="#94A3B8" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="1" Background="#0F172A" CornerRadius="8" Padding="14" BorderBrush="#1E293B" BorderThickness="1">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="SOLID Principles Compliant" FontWeight="Bold" FontSize="12.5" Foreground="#10B981" />
+                                <TextBlock Text="التزام صارم بمبادئ المسؤولية الفردية (SRP) وفصل الواجهات (ISP) وعكس التبعية (DIP) لكود نقي وقابل للصيانة." FontSize="11" Foreground="#94A3B8" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
                 </StackPanel>
             </Border>
 
-            <!-- Section 2: Application Info -->
-            <Border CornerRadius="12" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="20">
+            <!-- Section 3: Engine Specifications -->
+            <Border CornerRadius="14" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="20">
                 <StackPanel Spacing="10">
-                    <TextBlock Text="حول منصة DataVision AI" FontSize="16" FontWeight="Bold" Foreground="#F8FAFC" />
-                    <TextBlock Text="منصة ذكية متخصصة في قراءة وتحليل ومعالجة ملفات الإكسل (XLSX, XLS, CSV) واستخراج المؤشرات الإحصائية وتوليد الرسوم البيانية التفاعلية المدعومة بالذكاء الاصطناعي." FontSize="12.5" Foreground="#94A3B8" TextWrapping="Wrap" />
-                    
-                    <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,8,0,0">
-                        <Border Background="#1E293B" CornerRadius="6" Padding="8,4">
-                            <TextBlock Text="إصدار: 1.0.0 (WinUI 3 · .NET 9)" FontSize="11" Foreground="#38BDF8" />
-                        </Border>
-                        <Border Background="#1E293B" CornerRadius="6" Padding="8,4">
-                            <TextBlock Text="الواجهة: Windows App SDK 1.6" FontSize="11" Foreground="#818CF8" />
-                        </Border>
-                        <Border Background="#1E293B" CornerRadius="6" Padding="8,4">
-                            <TextBlock Text="المحرك: Gemini 1.5 + Local Stats" FontSize="11" Foreground="#34D399" />
-                        </Border>
-                    </StackPanel>
+                    <TextBlock Text="المواصفات التقنية للمحرك" FontSize="15" FontWeight="Bold" Foreground="#F8FAFC" />
+                    <TextBlock Text="• الواجهة: Windows App SDK 1.6 · WinUI 3 · Windows 11 Fluent Design" FontSize="12" Foreground="#94A3B8" />
+                    <TextBlock Text="• منصة التشغيل: .NET 9.0 (x64 Unpackaged / Self-Contained)" FontSize="12" Foreground="#94A3B8" />
+                    <TextBlock Text="• الخوارزميات: إحصاء وصفي كامل (IQR, Percentiles, Tukey Fences, Variance, Standard Deviation)" FontSize="12" Foreground="#94A3B8" />
+                    <TextBlock Text="• الأداء: معالجة محلية 100% دون أي اتصال خارجي أو تسريب لبيانات العمل" FontSize="12" Foreground="#34D399" FontWeight="SemiBold" />
                 </StackPanel>
             </Border>
 

@@ -55,7 +55,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{x:Bind Name}" FontWeight="Bold" FontSize="12" Foreground="#F1F5F9" VerticalAlignment="Center" />
                                 <Border Grid.Column="1" Background="#0F172A" CornerRadius="4" Padding="6,2" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <TextBlock Text="{x:Bind DataType}" FontSize="11" Foreground="#38BDF8" />
+                                    <TextBlock Text="{x:Bind DataTypeDisplay}" FontSize="11" Foreground="#38BDF8" />
                                 </Border>
                                 <TextBlock Grid.Column="2" Text="{x:Bind UniqueCount}" FontSize="12" Foreground="#94A3B8" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="3" Text="{x:Bind MissingPercentage, Mode=OneWay}" FontSize="12" Foreground="#F59E0B" VerticalAlignment="Center" />

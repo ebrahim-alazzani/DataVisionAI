@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F19"/>
+      <stop offset="100%" stop-color="#070A10"/>
+    </linearGradient>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Application Window Outer Frame -->
+  <rect x="40" y="30" width="1120" height="640" rx="16" fill="#0D131F" stroke="#1E293B" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <!-- Title Bar -->
+  <rect x="40" y="30" width="1120" height="52" rx="16" fill="#0A0E17"/>
+  <rect x="40" y="80" width="1120" height="2" fill="#1E293B"/>
+
+  <!-- Window Controls (Win11 Caption Buttons) -->
+  <circle cx="70" cy="56" r="6" fill="#EF4444"/>
+  <circle cx="90" cy="56" r="6" fill="#F59E0B"/>
+  <circle cx="110" cy="56" r="6" fill="#10B981"/>
+
+  <!-- TitleBar Brand -->
+  <rect x="140" y="42" width="28" height="28" rx="8" fill="url(#primaryGrad)"/>
+  <text x="180" y="60" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="900" letter-spacing="2">DATAVISION STUDIO</text>
+  <text x="360" y="60" fill="#38BDF8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1">BUSINESS INTELLIGENCE &amp; ANALYTICS</text>
+  <rect x="940" y="44" width="190" height="24" rx="6" fill="#131B2A" stroke="#1E293B"/>
+  <text x="955" y="60" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">بواسطة: إبراهيم العزاني</text>
+
+  <!-- Left Sidebar Navigation -->
+  <rect x="40" y="82" width="200" height="558" fill="#0B0F19"/>
+  <line x1="240" y1="82" x2="240" y2="640" stroke="#1E293B"/>
+
+  <!-- Nav Items -->
+  <rect x="52" y="104" width="176" height="40" rx="8" fill="#131B2A" stroke="#0EA5E9" stroke-width="1"/>
+  <circle cx="72" cy="124" r="5" fill="#38BDF8"/>
+  <text x="88" y="129" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="bold">لوحة المؤشرات التنفيذية</text>
+
+  <rect x="52" y="152" width="176" height="38" rx="8" fill="transparent"/>
+  <circle cx="72" cy="171" r="5" fill="#64748B"/>
+  <text x="88" y="176" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12">الرسوم البيانية التفاعلية</text>
+
+  <rect x="52" y="198" width="176" height="38" rx="8" fill="transparent"/>
+  <circle cx="72" cy="217" r="5" fill="#64748B"/>
+  <text x="88" y="222" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12">الاستعلام الإحصائي</text>
+
+  <rect x="52" y="244" width="176" height="38" rx="8" fill="transparent"/>
+  <circle cx="72" cy="263" r="5" fill="#64748B"/>
+  <text x="88" y="268" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12">توصيف وهيكل الأعمدة</text>
+
+  <rect x="52" y="580" width="176" height="38" rx="8" fill="transparent"/>
+  <circle cx="72" cy="599" r="5" fill="#64748B"/>
+  <text x="88" y="604" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12">الإعدادات والمطور</text>
+
+  <!-- Main Content Area -->
+  <!-- Hero Banner -->
+  <rect x="264" y="104" width="872" height="74" rx="12" fill="url(#primaryGrad)"/>
+  <text x="290" y="136" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="17" font-weight="bold">منصة DataVision Studio · استخبارات الأعمال والتحليلات التنفيذية</text>
+  <text x="290" y="158" fill="#E0F2FE" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12">معالجة محلية 100% لملفات Excel و CSV مع خوارزميات إحصائية وصفية وتوليد رسوم بيانية تفاعلية</text>
+  <rect x="990" y="120" width="130" height="42" rx="8" fill="#FFFFFF"/>
+  <text x="1015" y="146" fill="#0284C7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="bold">فتح ملف إكسل</text>
+
+  <!-- 4 KPI Cards -->
+  <rect x="264" y="196" width="206" height="74" rx="10" fill="#131B2A" stroke="#1E293B"/>
+  <text x="280" y="218" fill="#94A3B8" font-family="sans-serif" font-size="11">إجمالي السجلات (Rows)</text>
+  <text x="280" y="248" fill="#38BDF8" font-family="sans-serif" font-size="22" font-weight="900">15,480</text>
+
+  <rect x="486" y="196" width="206" height="74" rx="10" fill="#131B2A" stroke="#1E293B"/>
+  <text x="502" y="218" fill="#94A3B8" font-family="sans-serif" font-size="11">عدد الأعمدة (Columns)</text>
+  <text x="502" y="248" fill="#818CF8" font-family="sans-serif" font-size="22" font-weight="900">8</text>
+
+  <rect x="708" y="196" width="206" height="74" rx="10" fill="#131B2A" stroke="#1E293B"/>
+  <text x="724" y="218" fill="#94A3B8" font-family="sans-serif" font-size="11">مستوى جودة البيانات</text>
+  <text x="724" y="248" fill="#34D399" font-family="sans-serif" font-size="22" font-weight="900">99.4%</text>
+
+  <rect x="930" y="196" width="206" height="74" rx="10" fill="#131B2A" stroke="#1E293B"/>
+  <text x="946" y="218" fill="#94A3B8" font-family="sans-serif" font-size="11">ورقة العمل الحالية</text>
+  <text x="946" y="248" fill="#FBBF24" font-family="sans-serif" font-size="18" font-weight="bold">Sales_Data</text>
+
+  <!-- Left: Interactive Chart Mockup -->
+  <rect x="264" y="286" width="530" height="330" rx="12" fill="#131B2A" stroke="#1E293B"/>
+  <text x="286" y="316" fill="#F1F5F9" font-family="sans-serif" font-size="13" font-weight="bold">مخطط المبيعات حسب الفروع (Live ApexCharts)</text>
+
+  <!-- Chart Bars -->
+  <rect x="306" y="480" width="46" height="100" rx="4" fill="#0EA5E9"/>
+  <rect x="372" y="420" width="46" height="160" rx="4" fill="#6366F1"/>
+  <rect x="438" y="390" width="46" height="190" rx="4" fill="#10B981"/>
+  <rect x="504" y="450" width="46" height="130" rx="4" fill="#F59E0B"/>
+  <rect x="570" y="360" width="46" height="220" rx="4" fill="#38BDF8"/>
+  <rect x="636" y="430" width="46" height="150" rx="4" fill="#818CF8"/>
+  <rect x="702" y="400" width="46" height="180" rx="4" fill="#34D399"/>
+  <line x1="290" y1="582" x2="760" y2="582" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Right: Executive Insights Feed -->
+  <rect x="810" y="286" width="326" height="330" rx="12" fill="#131B2A" stroke="#1E293B"/>
+  <text x="830" y="316" fill="#F1F5F9" font-family="sans-serif" font-size="13" font-weight="bold">الرؤى والقرارات التنفيذية المحسوبة</text>
+
+  <!-- Insight 1 -->
+  <rect x="826" y="336" width="294" height="66" rx="8" fill="#0F172A" stroke="#1E293B"/>
+  <text x="840" y="356" fill="#F8FAFC" font-family="sans-serif" font-size="11.5" font-weight="bold">سلامة واكتمال البيانات الكلية</text>
+  <rect x="1050" y="344" width="60" height="18" rx="4" fill="#10B981"/>
+  <text x="1062" y="357" fill="#FFFFFF" font-family="sans-serif" font-size="9" font-weight="bold">99.4% اكتمال</text>
+  <text x="840" y="376" fill="#94A3B8" font-family="sans-serif" font-size="10">نسبة اكتمال عالية جداً تؤهلها لتقارير الإدارة التنفيذية.</text>
+
+  <!-- Insight 2 -->
+  <rect x="826" y="412" width="294" height="66" rx="8" fill="#0F172A" stroke="#1E293B"/>
+  <text x="840" y="432" fill="#F8FAFC" font-family="sans-serif" font-size="11.5" font-weight="bold">المؤشر الأبرز: إجمالي المبيعات</text>
+  <rect x="1040" y="420" width="70" height="18" rx="4" fill="#0284C7"/>
+  <text x="1048" y="433" fill="#FFFFFF" font-family="sans-serif" font-size="9" font-weight="bold">288,300 المجموع</text>
+  <text x="840" y="452" fill="#94A3B8" font-family="sans-serif" font-size="10">متوسط السجل الواحد 19,220 مع تباين إيجابي مرتفع.</text>
+
+  <!-- Insight 3 -->
+  <rect x="826" y="488" width="294" height="66" rx="8" fill="#0F172A" stroke="#1E293B"/>
+  <text x="840" y="508" fill="#F8FAFC" font-family="sans-serif" font-size="11.5" font-weight="bold">الريادة القطاعية: فئة الإلكترونيات</text>
+  <rect x="1052" y="496" width="58" height="18" rx="4" fill="#6366F1"/>
+  <text x="1060" y="509" fill="#FFFFFF" font-family="sans-serif" font-size="9" font-weight="bold">52.3% حصة</text>
+  <text x="840" y="528" fill="#94A3B8" font-family="sans-serif" font-size="10">استحوذت فئة الإلكترونيات على أكثر من نصف الأرباح.</text>
+
+  <!-- Insight 4 -->
+  <rect x="826" y="564" width="294" height="42" rx="8" fill="#0F172A" stroke="#1E293B"/>
+  <text x="840" y="584" fill="#F8FAFC" font-family="sans-serif" font-size="11" font-weight="bold">التوصية: تعزيز مخزون الفروع القيادية</text>
+
+  <!-- Bottom App Status Bar -->
+  <rect x="40" y="640" width="1120" height="30" rx="0" fill="#0A0E17"/>
+  <text x="60" y="660" fill="#94A3B8" font-family="sans-serif" font-size="11">جاهز · تم تحميل 15,480 سجلاً بنجاح</text>
+  <text x="910" y="660" fill="#64748B" font-family="sans-serif" font-size="11">WinUI 3 · .NET 9 · Clean Architecture · SOLID</text>
+</svg>

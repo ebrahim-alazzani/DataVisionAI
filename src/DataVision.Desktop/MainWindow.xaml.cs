@@ -87,8 +87,8 @@ public sealed partial class MainWindow : Window
                 case "charts":
                     ContentFrame.Navigate(typeof(ChartsPage));
                     break;
-                case "ai":
-                    ContentFrame.Navigate(typeof(AiAnalystPage));
+                case "analytics":
+                    ContentFrame.Navigate(typeof(AnalyticsSummaryPage));
                     break;
                 case "preview":
                     ContentFrame.Navigate(typeof(DataPreviewPage));

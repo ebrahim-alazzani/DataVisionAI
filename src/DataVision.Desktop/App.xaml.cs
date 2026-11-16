@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Microsoft.UI.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using DataVision.Desktop.Core.Interfaces;
 using DataVision.Desktop.Services;
 using DataVision.Desktop.ViewModels;
 using DataVision.Desktop.Views;
@@ -22,9 +23,9 @@ public partial class App : Application
         {
             try
             {
-                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DataVisionAI");
+                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DataVisionStudio");
                 Directory.CreateDirectory(folder);
-                File.AppendAllText(Path.Combine(folder, "error.log"), $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {e.Message}\n{e.Exception}\n");
+                File.AppendAllText(Path.Combine(folder, "crash.log"), $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {e.Message}\n{e.Exception}\n");
             }
             catch { }
         };
@@ -34,19 +35,20 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        // Services
-        services.AddSingleton<ExcelReaderService>();
-        services.AddSingleton<AiAnalysisService>();
-        services.AddSingleton<ChartGeneratorService>();
+        // Core Domain Services (SOLID: Dependency Inversion Principle - register interfaces)
+        services.AddSingleton<IExcelReaderService, ExcelReaderService>();
+        services.AddSingleton<IAnalyticsEngineService, StatisticalAnalyticsService>();
+        services.AddSingleton<IChartGeneratorService, ChartGeneratorService>();
+        services.AddSingleton<IReportExportService, ReportExportService>();
 
         // ViewModels
         services.AddSingleton<MainViewModel>();
-        services.AddSingleton<AiAnalystViewModel>();
+        services.AddSingleton<AnalyticsSummaryViewModel>();
 
         // Views
         services.AddTransient<DashboardPage>();
         services.AddTransient<ChartsPage>();
-        services.AddTransient<AiAnalystPage>();
+        services.AddTransient<AnalyticsSummaryPage>();
         services.AddTransient<DataPreviewPage>();
         services.AddTransient<SettingsPage>();
         services.AddSingleton<MainWindow>();

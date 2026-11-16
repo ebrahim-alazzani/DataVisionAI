@@ -1,6 +1,20 @@
 @echo off
-title DataVision AI - Launching...
+setlocal
+title DataVision Studio - Launching...
+
+echo =======================================================================
+echo   DataVision Studio - Enterprise Business Intelligence Platform
+echo   Developed by: Ebrahim Al-Azzani
+echo =======================================================================
+echo.
+echo Starting application using relative directory...
 cd /d "%~dp0src\DataVision.Desktop"
-echo Starting DataVision AI Desktop Application (WinUI 3)...
+
 dotnet run --no-build -p:Platform=x64
-pause
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo Application exited with error code %ERRORLEVEL%.
+    pause
+)
+endlocal

@@ -3,20 +3,20 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using DataVision.Desktop.ViewModels;
-using DataVision.Desktop.Services;
+using DataVision.Desktop.Core.Interfaces;
 
 namespace DataVision.Desktop.Views;
 
 public sealed partial class ChartsPage : Page
 {
     private readonly MainViewModel? _mainViewModel;
-    private readonly ChartGeneratorService? _chartGenerator;
+    private readonly IChartGeneratorService? _chartGenerator;
     private bool _isInitialized = false;
 
     public ChartsPage()
     {
         _mainViewModel = App.Services.GetService<MainViewModel>();
-        _chartGenerator = App.Services.GetService<ChartGeneratorService>();
+        _chartGenerator = App.Services.GetService<IChartGeneratorService>();
 
         InitializeComponent();
         _isInitialized = true;
@@ -98,7 +98,7 @@ public sealed partial class ChartsPage : Page
         try
         {
             await MainChartView.EnsureCoreWebView2Async();
-            var html = _chartGenerator.GenerateApexChartHtml(profile, catCol, valCol, chartType, isDark: true);
+            var html = _chartGenerator.GenerateChartHtml(profile, catCol, valCol, chartType, isDark: true);
             MainChartView.NavigateToString(html);
         }
         catch { }
