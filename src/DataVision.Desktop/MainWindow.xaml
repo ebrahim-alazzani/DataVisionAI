@@ -1,0 +1,98 @@
+<Window
+    x:Class="DataVision.Desktop.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="DataVision AI · استوديو تحليل البيانات والتقارير الذكية">
+
+    <Grid Background="#0B0F19">
+        <Grid.RowDefinitions>
+            <!-- Custom Title Bar -->
+            <RowDefinition Height="Auto" />
+            <!-- App Main Body -->
+            <RowDefinition Height="*" />
+            <!-- Status Bar -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Custom Title Bar -->
+        <Border Grid.Row="0"
+                Height="48"
+                Background="#0D131F"
+                BorderBrush="#1E293B"
+                BorderThickness="0,0,0,1"
+                Padding="16,0,16,0">
+            <Grid x:Name="AppTitleBar">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- App Brand & Logo -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <Border Width="28" Height="28" CornerRadius="8" Background="{ThemeResource DvGradientPrimary}">
+                        <FontIcon Glyph="&#xE9D9;" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="DATAVISION AI" FontWeight="Black" FontSize="13" Foreground="#F8FAFC" VerticalAlignment="Center" CharacterSpacing="60" />
+                    <TextBlock Text="EXCEL ANALYTICS STUDIO" FontSize="10" FontWeight="SemiBold" Foreground="#38BDF8" VerticalAlignment="Center" CharacterSpacing="80" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Body: Navigation Sidebar + Content Frame -->
+        <Grid Grid.Row="1">
+            <NavigationView x:Name="NavView"
+                            PaneDisplayMode="LeftCompact"
+                            IsBackButtonVisible="Collapsed"
+                            IsSettingsVisible="True"
+                            OpenPaneLength="220"
+                            CompactPaneLength="56"
+                            SelectionChanged="NavView_SelectionChanged">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Content="لوحة التحكم" Tag="dashboard">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE80F;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="الرسوم البيانية" Tag="charts">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE9D9;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="المساعد الذكي (AI Chat)" Tag="ai">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE8BD;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="توصيف الأعمدة" Tag="preview">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE8C0;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.MenuItems>
+
+                <Frame x:Name="ContentFrame" />
+            </NavigationView>
+        </Grid>
+
+        <!-- Bottom Status Bar -->
+        <Border Grid.Row="2" Height="30" Background="#0D131F" BorderBrush="#1E293B" BorderThickness="0,1,0,0" Padding="16,0,16,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <ProgressRing x:Name="StatusRing" Width="14" Height="14" IsActive="False" Visibility="Collapsed" />
+                    <TextBlock x:Name="TxtStatus" Text="جاهز لاستقبال ملف الإكسل أو CSV" FontSize="11" Foreground="#94A3B8" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="WinUI 3 · .NET 9 · Windows 11 Fluent" FontSize="10.5" Foreground="#64748B" VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

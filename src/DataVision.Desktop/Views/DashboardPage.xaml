@@ -1,0 +1,146 @@
+<Page
+    x:Class="DataVision.Desktop.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:DataVision.Desktop.Models"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Spacing="24" Padding="28,24,28,32">
+
+            <!-- Hero Welcome & Quick Upload Banner -->
+            <Border CornerRadius="16"
+                    Background="{ThemeResource DvGradientPrimary}"
+                    Padding="28,24,28,24"
+                    BorderThickness="1"
+                    BorderBrush="#38BDF8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="منصة DataVision AI · تحليل البيانات والتقارير الذكية"
+                                   FontSize="22" FontWeight="Bold" Foreground="White" />
+                        <TextBlock Text="اسحب ملف الإكسل (XLSX, XLS, CSV) هنا أو اضغط على الزر لتبدأ التحليلات ورسم المخططات فوراً."
+                                   FontSize="13" Foreground="#E0F2FE" TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                        <Button x:Name="BtnOpenFile"
+                                Click="BtnOpenFile_Click"
+                                Background="White"
+                                Foreground="#0284C7"
+                                FontWeight="Bold"
+                                FontSize="13"
+                                CornerRadius="10"
+                                Padding="18,10,18,10">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE8E5;" FontSize="15" />
+                                <TextBlock Text="فتح ملف إكسل / CSV" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- KPI Metric Cards Grid -->
+            <Grid ColumnSpacing="16" RowSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- KPI 1: Total Rows -->
+                <Border Grid.Column="0" CornerRadius="12" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="18,16">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="إجمالي السجلات (Rows)" FontSize="12" Foreground="#94A3B8" />
+                        <TextBlock x:Name="TxtTotalRows" Text="0" FontSize="26" FontWeight="Black" Foreground="#38BDF8" />
+                        <TextBlock Text="الصفوف المقروءة من الورقة" FontSize="11" Foreground="#64748B" />
+                    </StackPanel>
+                </Border>
+
+                <!-- KPI 2: Total Columns -->
+                <Border Grid.Column="1" CornerRadius="12" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="18,16">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="عدد الأعمدة (Columns)" FontSize="12" Foreground="#94A3B8" />
+                        <TextBlock x:Name="TxtTotalColumns" Text="0" FontSize="26" FontWeight="Black" Foreground="#818CF8" />
+                        <TextBlock Text="المتغيرات والأبعاد التحليلية" FontSize="11" Foreground="#64748B" />
+                    </StackPanel>
+                </Border>
+
+                <!-- KPI 3: Data Quality -->
+                <Border Grid.Column="2" CornerRadius="12" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="18,16">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="مستوى جودة البيانات" FontSize="12" Foreground="#94A3B8" />
+                        <TextBlock x:Name="TxtDataQuality" Text="100%" FontSize="26" FontWeight="Black" Foreground="#34D399" />
+                        <TextBlock Text="نسبة اكتمال الخلايا غير الفارغة" FontSize="11" Foreground="#64748B" />
+                    </StackPanel>
+                </Border>
+
+                <!-- KPI 4: Active Sheet -->
+                <Border Grid.Column="3" CornerRadius="12" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="18,16">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="ورقة العمل الحالية" FontSize="12" Foreground="#94A3B8" />
+                        <TextBlock x:Name="TxtActiveSheet" Text="-" FontSize="18" FontWeight="Bold" Foreground="#FBBF24" TextTrimming="CharacterEllipsis" />
+                        <TextBlock x:Name="TxtFileSize" Text="0 KB" FontSize="11" Foreground="#64748B" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Main Split: Live Interactive Chart + AI Insights -->
+            <Grid ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Live Interactive Chart in WebView2 -->
+                <Border Grid.Column="0" CornerRadius="14" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="16">
+                    <Grid RowDefinitions="Auto,*">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,0,0,12">
+                            <TextBlock Text="المخطط التفاعلي المباشر" FontSize="14" FontWeight="Bold" Foreground="#E2E8F0" VerticalAlignment="Center" />
+                            <FontIcon Glyph="&#xE9D9;" Foreground="#38BDF8" FontSize="16" />
+                        </StackPanel>
+
+                        <WebView2 x:Name="ChartWebView" Grid.Row="1" MinHeight="360" Height="380" />
+                    </Grid>
+                </Border>
+
+                <!-- Right: AI Insights Feed -->
+                <Border Grid.Column="1" CornerRadius="14" Background="#131B2A" BorderBrush="#1E293B" BorderThickness="1" Padding="18">
+                    <Grid RowDefinitions="Auto,*">
+                        <Grid Margin="0,0,0,12">
+                            <TextBlock Text="رؤى وتوصيات الذكاء الاصطناعي" FontSize="14" FontWeight="Bold" Foreground="#E2E8F0" HorizontalAlignment="Right" />
+                            <TextBlock Text="AI Insights" FontSize="11" Foreground="#0EA5E9" FontWeight="SemiBold" HorizontalAlignment="Left" />
+                        </Grid>
+
+                        <ListView x:Name="LvInsights" Grid.Row="1" MaxHeight="380" SelectionMode="None">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:AiInsight">
+                                    <Border Margin="0,0,0,10" CornerRadius="8" Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" Padding="12">
+                                        <StackPanel Spacing="4">
+                                            <Grid>
+                                                <TextBlock Text="{x:Bind Title}" FontWeight="Bold" FontSize="12" Foreground="#F1F5F9" HorizontalAlignment="Right" />
+                                                <Border Background="{x:Bind BadgeColor}" CornerRadius="4" Padding="6,2" HorizontalAlignment="Left">
+                                                    <TextBlock Text="{x:Bind ImpactMetric}" FontSize="10" FontWeight="Bold" Foreground="White" />
+                                                </Border>
+                                            </Grid>
+                                            <TextBlock Text="{x:Bind Description}" FontSize="11" Foreground="#94A3B8" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

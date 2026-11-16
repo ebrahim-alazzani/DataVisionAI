@@ -1,0 +1,6 @@
+@echo off
+title DataVision AI - Launching...
+cd /d "%~dp0src\DataVision.Desktop"
+echo Starting DataVision AI Desktop Application (WinUI 3)...
+dotnet run --no-build -p:Platform=x64
+pause
